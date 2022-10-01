@@ -1,46 +1,34 @@
-class Test {
-    static int arr[]
-        = new int[] { 0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1 };
- 
-    // Method for maximum amount of water
-    static int findWater(int n)
-    {
-        // left[i] contains height of tallest bar to the
-        // left of i'th bar including itself
-        int left[] = new int[n];
- 
-        // Right [i] contains height of tallest bar to
-        // the right of ith bar including itself
-        int right[] = new int[n];
- 
-        // Initialize result
-        int water = 0;
- 
-        // Fill left array
-        left[0] = arr[0];
-        for (int i = 1; i < n; i++)
-            left[i] = Math.max(left[i - 1], arr[i]);
- 
-        // Fill right array
-        right[n - 1] = arr[n - 1];
-        for (int i = n - 2; i >= 0; i--)
-            right[i] = Math.max(right[i + 1], arr[i]);
- 
-        // Calculate the accumulated water element by
-        // element consider the amount of water on i'th bar,
-        // the amount of water accumulated on this
-        // particular bar will be equal to min(left[i],
-        // right[i]) - arr[i] .
-        for (int i = 0; i < n; i++)
-            water += Math.min(left[i], right[i]) - arr[i];
- 
-        return water;
-    }
- 
-    // Driver method to test the above function
-    public static void main(String[] args)
-    {
- 
-        System.out.println(findWater(arr.length));
+class Solution {
+    public int trap(int[] arr) {
+        int n=arr.length;
+        int[] front= new int[n];
+        int[] back= new int[n];
+        int temp=0,sum=0;
+		
+		//Calculating the highest block from the left for each element
+        for (int i=0;i<n;i++){
+            if (temp<arr[i]){
+                temp=arr[i];
+            }
+            front[i]=temp;
+           
+        }
+        temp=0;
+		//Calculating the highest block from the right for each element
+        for (int i=n-1;i>=0;i--){
+            if (temp<arr[i]){
+                temp=arr[i];
+            }
+            back[i]=temp;
+            
+        }
+		//Comparing left and right highest blocks and finding the highest block 
+		//Subtracting the highest block by element's block 
+         for (int j=0;j<n;j++){
+             sum+= (front[j]<back[j] ? front[j]:back[j]) -arr[j];
+         }       
+        
+        
+        return sum;
     }
 }
